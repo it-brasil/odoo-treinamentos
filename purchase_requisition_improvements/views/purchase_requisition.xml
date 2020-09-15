@@ -1,0 +1,20 @@
+<odoo>
+
+
+    <record id="view_purchase_requisition_form" model="ir.ui.view">
+        <field name="name">view.purchase.requisition.form</field>
+        <field name="model">purchase.requisition</field>
+        <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="suppliers" string="Fornecedores">
+                     <field name="supplier_ids"></field>
+                </page>
+            </notebook>
+            <button name="action_in_progress" position="before">
+                <button name="action_generate_all_quotations" type="object" states="open,in_progress" string="Gerar cotações" class="btn-primary"/>
+            </button>
+        </field>
+    </record>
+
+</odoo>

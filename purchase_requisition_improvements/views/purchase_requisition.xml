@@ -14,6 +14,9 @@
             <button name="action_in_progress" position="before">
                 <button name="action_generate_all_quotations" type="object" states="open,in_progress" string="Gerar cotações" class="btn-primary"/>
             </button>
+            <field name="line_ids" position="after">
+                <field name="best_price_ids" />
+            </field>
         </field>
     </record>
 

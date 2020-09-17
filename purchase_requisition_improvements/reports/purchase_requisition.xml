@@ -1,0 +1,120 @@
+<odoo>
+    <report 
+        string="Todas as Propostas" 
+        id="action_report_purchase_requisitions" 
+        model="purchase.requisition" 
+        report_type="qweb-pdf"
+        name="purchase_requisition_improvements.report_purchaserequisitions" 
+        file="purchase_requisition_improvements.report.report_purchaserequisitions"
+        print_report_name="'Tender - %s' % (object.name)"
+    />
+
+    <template id="report_purchaserequisitions">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+
+                        <h2>Relatorio de Compras <span t-field="o.name"/></h2>
+
+                        <div class="row mt32 mb32">
+                            <div class="col-3">
+                                <strong>Call for Tender Reference:</strong><br/>
+                                <span t-field="o.name"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Scheduled Ordering Date:</strong><br/>
+                                <span t-field="o.ordering_date"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Selection Type:</strong><br/>
+                                <span t-esc="o.type_id.name">Multiple Requisitions</span>
+                            </div>
+                            <div class="col-3">
+                                <strong>Source:</strong><br/>
+                                <span t-field="o.origin"/>
+                            </div>
+                        </div>
+
+                        <h3>Melhores precos por produto</h3>
+                        <div class="row" style="margin: 40px 0px;">
+                            <div class="col-12">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th><strong>Produto </strong></th>
+                                            <th><strong>Fornecedor</strong></th>
+                                            <th class="text-right"><strong>Melhor Preco </strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr t-foreach="o.best_price_ids" t-as="item">
+                                            <td>
+                                                <span t-field="item.product_id.name"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="item.order_id.partner_id.name"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="item.price_unit"/>
+                                            </td>
+                                        </tr>
+                                    </tbody> 
+                                </table>
+                            </div>
+                        </div>
+
+                        <t t-if="o.purchase_ids">
+                            <h3>Fornecedores e precos</h3>
+                            <div t-foreach="o.purchase_ids" t-as="purchase_ids" style="margin-bottom: 40px;">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <strong>Fornecedor:</strong>
+                                        <span t-field="purchase_ids.partner_id.name"/>
+                                    </div>
+                                    <div  class="col-4">
+                                        <strong>Data da Solicitacao:</strong>
+                                        <span t-field="purchase_ids.date_order"/>
+                                    </div>
+                                    <div  class="col-4">
+                                        <strong>Orcamento:</strong>
+                                        <span t-field="purchase_ids.name"/>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th><strong>Nome </strong></th>
+                                                <th><strong>Quantidade</strong></th>
+                                                <th class="text-right"><strong>Valor Unitario </strong></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr t-foreach="purchase_ids.order_line" t-as="item">
+                                                <td>
+                                                    <span t-field="item.product_id.name"/>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span t-field="item.product_qty"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-field="item.price_unit"/>
+                                                </td>
+                                            </tr>
+                                        </tbody> 
+                                    </table>
+                                </div>
+                            </div>
+                        </t>
+
+                        <div class="oe_structure"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

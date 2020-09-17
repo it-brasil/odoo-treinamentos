@@ -9,6 +9,7 @@
     ],
     'data': [
         'views/purchase_requisition.xml',
+        'reports/purchase_requisition.xml',
     ],
     'application': True,
 }

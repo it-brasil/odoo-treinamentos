@@ -1,0 +1,62 @@
+<odoo>
+
+     <template id="portal_purchase_order_content" name="Purchase Order for Suppliers">
+        <div class="container">
+            <span t-field="po.name" /><br />
+            <span t-field="po.partner_id" /><br />
+            <span t-field="po.date_order" /><br />
+
+            <div class="row">
+                <div class="col-lg-6">
+                <strong>Produto</strong>
+                </div>
+                <div class="col-lg-2 text-right">
+                <strong>Preco Unitario</strong>
+                </div>
+                <div class="col-lg-2 text-right">
+                <strong>Quantidade</strong>
+                </div>
+                <div class="col-lg-2 text-right">
+                <strong>Valor Final</strong>
+                </div>
+            </div>
+            
+            <form method="POST">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <t t-foreach="po.order_line" t-as="ol">
+                    <div class="row purchases_vertical_align">
+                    <div id="product_name" class="col-lg-5">
+                        <span t-esc="ol.name"/>
+                    </div>
+                    <div class="col-lg-2 text-right">
+                        <input type="text" t-attf-name="input_{{ ol.id }}" t-att-value="ol.price_unit" />
+                    </div>
+                    <div class="col-lg-2 text-right">
+                        <span t-esc="ol.product_qty"/>
+                    </div>
+                    <div class="col-lg-2 text-right">
+                        <span t-field="ol.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: po.currency_id}"/>
+                    </div>
+                    </div>
+                </t>
+                <button class="btn btn-primary">Salvar</button>
+            </form>
+            <div class="row">
+                <div class="col-lg-2 offset-10">
+                <strong>Total</strong>
+                <span t-field="po.amount_total" />
+                </div>
+            </div>
+        </div>
+     </template>
+
+    <template id="portal_purchase_order" name="Purchase Order for Suppliers">
+        <t t-call="website.layout">
+            <div class="oe_structure mb32" />
+            <t t-call="purchase_requisition_improvements.portal_purchase_order_content" />
+            <div class="oe_structure mb32" />
+        </t>
+    </template>
+
+</odoo>
+
